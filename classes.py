@@ -45,7 +45,9 @@ class Player:
             self.strenght = self.strenght + weapon.attack_power
 
     def remove_weapon(self, weapon):
-        self.strenght = self.strenght - weapon.attack_power
+        if type(weapon) == Weapon:
+            self.strenght = self.strenght - weapon.attack_power
+            self.curr_weapon = None
         if type(weapon) == MagicalWeapon:
             self.magical_power = self.magical_power - weapon.magical_power
             self.strenght = self.strenght - self.curr_magic_weapon.attack_power
@@ -169,10 +171,10 @@ class Weapon:
         player.remove_weapon(self)
 
         input("Twoja broń uległa zniszczeniu")
-        os.system("cls")
 
         while True:
             if player.equipment:
+                os.system("cls")
                 print("Twoja broń uległa zniszczeniu")
                 player.get_equipment()
                 print("0 - Wyjdź")
@@ -206,6 +208,8 @@ class Weapon:
                 input("Wyposażyłeś nową broń")
                 os.system("cls")
                 break
+            else:
+                break
 
 
 class MagicalWeapon(Weapon):
@@ -219,10 +223,10 @@ class MagicalWeapon(Weapon):
             enemy.health = enemy.health - player.magical_power
             player.mana = player.mana - self.req_mana
             self.uses = self.uses - 1
-            if self.uses <= 0:
-                self.weapon_break(player)
             print(f"Zadałeś {player.magical_power} obrażeń przeciwnikowi {enemy.name}, "
                   f"zostało mu {enemy.health} HP")
+            if self.uses <= 0:
+                self.weapon_break(player)
         else:
             print("Nie masz wystarczająco dużo many")
 

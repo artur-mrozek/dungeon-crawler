@@ -1,6 +1,6 @@
 import random
 import os
-from classes import Player, Enemy, Boss
+from classes import Player, Enemy, Boss, Weapon, MagicalWeapon
 from fight import fight
 from shop import shop
 
